@@ -1,0 +1,909 @@
+% !TeX program = pdflatex
+% Compile twice: pdflatex pv_eta_invariant_en.tex
+% Self-contained source: bibliography included; no external figures required.
+% Author and affiliation can be supplied in the author field below.
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=27mm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype,booktabs,fancyhdr,xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!40!black,citecolor=blue!40!black,urlcolor=blue!40!black]{hyperref}
+\usepackage{bookmark}
+\hypersetup{pdftitle={Finite Pauli--Villars Products and the Eta Invariant},
+  pdfsubject={Convergent spectral determinants, Pfaffians, and large-mass limits}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Pf}{Pf}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\spec}{spec}
+\DeclareMathOperator{\Log}{Log}
+\DeclareMathOperator{\ph}{ph}
+\newcommand{\ii}{\mathrm i}
+\newcommand{\dd}{\,\mathrm d}
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Maj}{\mathrm{Maj}}
+\numberwithin{equation}{section}
+\allowdisplaybreaks[2]
+\emergencystretch=2em
+\setlength{\parskip}{2pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Finite Pauli--Villars Products and the Eta Invariant}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+\title{\bfseries Finite Pauli--Villars Products\\and the Eta Invariant}
+\author{}
+\date{October 8, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We give an explicit spectral construction of Pauli--Villars regularization
+for geometric Dirac operators on closed odd-dimensional spin manifolds.
+A finite collection of regulator masses, with binomial multiplicities,
+defines an ordinary absolutely convergent product at every positive
+regulator scale. Using the Bismut--Freed local heat-kernel estimate, we
+prove that its phase converges to $\exp(-\ii\pi\eta_D(0)/2)$.
+For this particular scheme, the modulus also has a finite limit, equal to
+the positive square root of the zeta determinant of $D^2$ when $D$ is
+invertible. An antiunitary symmetry with square $-1$ gives a compatible
+Pfaffian construction and the phase $\exp(-\ii\pi\eta_D(0)/4)$.
+We also treat negative physical mass and zero modes, and isolate the
+analytic hypotheses needed beyond the odd-dimensional oriented setting.
+The purpose is to provide a direct convergence proof of the established
+eta-phase formula, with the regulator scheme and the Pfaffian branch
+specified explicitly.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+The phase of a fermion partition function contains information that is
+not determined by its absolute value. For a massless complex fermion,
+a familiar Pauli--Villars (PV) prescription leads to the expression
+\begin{equation}\label{eq:intro-phase}
+ Z=|Z|\exp\!\left(-\frac{\ii\pi}{2}\eta_D(0)\right),
+\end{equation}
+where $D$ is a self-adjoint Dirac operator and the sign depends on the
+regulator-mass convention. This formula, and its Pfaffian counterpart,
+play a central role in the discussion of fermion anomalies and
+topological phases in \cite{Witten,WY}.
+
+To make a statement such as \eqref{eq:intro-phase} precise, one must
+specify both the regularized determinant and the limiting operation.
+For example, the formal product
+$\prod_\lambda\lambda/(\lambda+\ii M)$ is not an ordinary absolutely
+convergent product in three dimensions. Taking a large-mass limit
+eigenvalue by eigenvalue does not justify interchanging that limit with
+an infinite spectral sum. Moreover, a Pfaffian requires a compatible
+choice of sign, rather than an unspecified square root of a determinant.
+
+We address these points by an explicit finite PV construction. For any
+even integer $N$ larger than the dimension, the coefficients
+\begin{equation}\label{eq:intro-c}
+ c_j=(-1)^j\binom Nj,\qquad 0\le j\le N,
+\end{equation}
+cancel all moments of degree less than $N$. Grouping the regulator
+factors at each eigenvalue then produces an ordinary Fredholm
+determinant. Its phase admits a convergent heat-kernel representation.
+The Bismut--Freed estimate for the local eta density supplies an
+integrable majorant, so that the large-mass limit follows from dominated
+convergence. The same moment conditions also cancel the divergent
+terms in the modulus in odd dimensions.
+
+The analytic input is the local regularity theorem of Bismut and
+Freed \cite{BF}; an alternative proof is given by Ponge \cite{Ponge}.
+The geometry of determinant and Pfaffian lines, including families and
+boundary problems, is developed in \cite{DF,FM}. The present paper
+concerns explicit scalar spectral products for a fixed operator and
+does not replace that geometric framework. The phase formula itself
+is established in the literature. Our aim is to exhibit a concrete
+finite-regulator realization and to justify each interchange of a sum,
+an integral, and a large-mass limit.
+
+Section~\ref{sec:setup} records the geometric and analytic assumptions.
+Section~\ref{sec:main} states and proves the determinant theorem.
+Section~\ref{sec:pf} gives the Pfaffian construction.
+Negative mass and zero modes are treated in Section~\ref{sec:mass}.
+Section~\ref{sec:extensions} discusses extensions and limitations.
+
+\section{Geometric setting and analytic input}\label{sec:setup}
+
+Let $Y$ be a closed Riemannian spin manifold of odd dimension
+$n=2r+1$, and let $E\to Y$ be a Hermitian vector bundle with a unitary
+connection. Write $S\to Y$ for the complex spinor bundle. We consider
+the geometric twisted Dirac operator
+\[
+ D:H^1(Y;S\otimes E)\longrightarrow L^2(Y;S\otimes E)
+\]
+as a self-adjoint unbounded operator on $L^2(Y;S\otimes E)$.
+Here ``geometric'' refers to the operator formed from the Levi--Civita
+and twisting connections, without an additional arbitrary zero-order
+potential. The regulator convention throughout is
+\begin{equation}\label{eq:mass-sign}
+ D+\ii m,\qquad m>0.
+\end{equation}
+Replacing every regulator mass by its negative conjugates the
+massless phase obtained below.
+
+Spectral sums count eigenvalues with their complex multiplicities.
+In particular, the independent Grassmann variables of a complex
+fermion and its conjugate do not introduce a second copy of this
+spectral multiplicity. When a kernel is present, zero eigenvalues are
+omitted from the eta function:
+\begin{equation}\label{eq:eta-def}
+ \eta_D(s)=\sum_{\lambda\ne0}\sgn(\lambda)|\lambda|^{-s},
+ \qquad \Re s>n.
+\end{equation}
+We set $h=\dim_\C\ker D$ and use $\ph z=z/|z|$ for $z\ne0$.
+
+Introduce the heat traces
+\begin{equation}\label{eq:heat-traces}
+ K(t)=\Tr(e^{-tD^2}),\qquad
+ T(t)=\Tr(De^{-tD^2}),\qquad
+ A(t)=\Tr(|D|e^{-tD^2}).
+\end{equation}
+The Weyl estimate implies
+\begin{equation}\label{eq:weyl}
+ \#\{\lambda:0<|\lambda|\le R\}=O(R^n),\qquad
+ A(t)=O(t^{-(n+1)/2})\quad(t\downarrow0).
+\end{equation}
+Both $T(t)$ and $A(t)$ decay exponentially as $t\to\infty$ because
+the nonzero spectrum has a positive gap from zero. The same is true
+of $K(t)$ when $h=0$.
+
+\begin{theorem}[Bismut--Freed local regularity]\label{thm:BF}
+For the geometric Dirac operator above, the fiberwise trace of the
+kernel of $De^{-tD^2}$ on the diagonal is uniformly $O(t^{1/2})$ as
+$t\downarrow0$. Consequently,
+\begin{equation}\label{eq:BF}
+ T(t)=O(t^{1/2}),\qquad
+ \int_0^\infty t^{-1/2}|T(t)|\dd t<\infty.
+\end{equation}
+\end{theorem}
+
+This is the analytic result of \cite[Theorem 2.4]{BF}; see also
+\cite[Theorem 3.1]{Ponge}. We use it as an established theorem.
+
+\begin{lemma}\label{lem:eta}
+The eta function is holomorphic for $\Re s>-2$ and satisfies
+\begin{equation}\label{eq:eta-heat}
+ \eta_D(0)=\frac1{\sqrt\pi}\int_0^\infty t^{-1/2}T(t)\dd t,
+\end{equation}
+where the integral is absolutely convergent.
+\end{lemma}
+\begin{proof}
+For $\Re s>n$, absolute convergence permits the Mellin representation
+\begin{equation}\label{eq:mellin}
+ \eta_D(s)=\frac1{\Gamma((s+1)/2)}
+ \int_0^\infty t^{(s-1)/2}T(t)\dd t.
+\end{equation}
+Theorem~\ref{thm:BF} and exponential decay at infinity show that the
+integral is locally uniformly convergent for $\Re s>-2$.
+It therefore gives a holomorphic continuation to that half-plane.
+Evaluation at $s=0$ gives \eqref{eq:eta-heat}.
+\end{proof}
+
+The argument below needs the absolute integrability in
+\eqref{eq:BF}, not merely regularity of an abstract eta function at
+$s=0$. This distinction matters when considering more general
+self-adjoint elliptic operators.
+
+\section{The finite PV determinant}\label{sec:main}
+
+Assume first that $h=0$. Choose an even integer $N>n$ and take the
+coefficients \eqref{eq:intro-c}. For $M>0$ and $\lambda\ne0$, set
+\begin{equation}\label{eq:g-def}
+ g_M(\lambda)=\prod_{j=0}^N(\lambda+\ii jM)^{c_j},\qquad
+ Z_M(D)=\prod_{\lambda\in\spec D}g_M(\lambda).
+\end{equation}
+The factor with $j=0$ is the physical massless determinant. Positive
+and negative coefficients specify positive and inverse determinant
+powers, respectively. The factors are combined at each eigenvalue
+before the infinite product is taken.
+
+Write the short-time expansion of the heat trace as
+\begin{equation}\label{eq:K-expansion}
+ K(t)=\sum_{k=0}^r a_{2k}t^{k-n/2}+O(t^{1/2}),
+ \qquad
+ Q(t)=K(t)-\sum_{k=0}^r a_{2k}t^{k-n/2}.
+\end{equation}
+Define
+\begin{equation}\label{eq:amplitude}
+ \mathcal A(D)=
+ \exp\!\left[-\frac12\int_0^\infty Q(t)\frac{\dd t}{t}\right].
+\end{equation}
+The integral converges at both endpoints: $Q(t)/t=O(t^{-1/2})$
+near zero, while $K(t)$ decays exponentially and the subtracted
+powers decay at infinity.
+
+\begin{theorem}[Determinant limit]\label{thm:main}
+For every $M>0$, the product \eqref{eq:g-def} is absolutely convergent
+and nonzero. Moreover, $g_M(D)-1$ is trace class and
+\begin{equation}\label{eq:fredholm}
+ Z_M(D)=\det\nolimits_F g_M(D).
+\end{equation}
+Its large-mass limit is
+\begin{equation}\label{eq:main-limit}
+ \lim_{M\to\infty}Z_M(D)
+ =\mathcal A(D)\exp\!\left(-\frac{\ii\pi}{2}\eta_D(0)\right).
+\end{equation}
+In particular,
+\begin{equation}\label{eq:phase-limit}
+ \lim_{M\to\infty}\ph Z_M(D)
+ =\exp\!\left(-\frac{\ii\pi}{2}\eta_D(0)\right).
+\end{equation}
+Both limits are independent of the even integer $N>n$ within this
+family of regulator schemes.
+\end{theorem}
+
+\begin{corollary}[Three-dimensional formula]\label{cor:3d}
+If $n=3$, one may take $N=4$ and obtain
+\begin{equation}\label{eq:3d-product}
+ Z_M(D)=\prod_{\lambda\in\spec D}
+ \frac{\lambda(\lambda+2\ii M)^6(\lambda+4\ii M)}
+      {(\lambda+\ii M)^4(\lambda+3\ii M)^4}.
+\end{equation}
+This product satisfies \eqref{eq:main-limit} with
+\begin{equation}\label{eq:3d-amplitude}
+ \mathcal A(D)=\exp\!\left[-\frac12\int_0^\infty
+ \frac{K(t)-a_0t^{-3/2}-a_2t^{-1/2}}{t}\dd t\right].
+\end{equation}
+\end{corollary}
+
+The regulator data in this example are
+\[
+\begin{array}{c|rrrrr}
+ j&0&1&2&3&4\\\hline
+ c_j&1&-4&6&-4&1\\
+ m_j&0&M&2M&3M&4M
+\end{array}
+\]
+Only the combined product is used. We do not define the individual
+divergent determinants and then assume multiplicativity of their
+regularized values.
+
+\subsection{Absolute convergence at finite mass}
+
+The finite-difference identity gives
+\begin{equation}\label{eq:moments}
+ \sum_{j=0}^N c_jp(j)=0
+ \quad\text{for every polynomial $p$ of degree less than $N$}.
+\end{equation}
+In particular, $\sum c_j=0$ and $\sum c_jj^k=0$ for $1\le k<N$.
+Fix the logarithm
+\begin{equation}\label{eq:ell}
+ \ell_M(\lambda)=\sum_{j=1}^Nc_j
+       \Log\!\left(1+\frac{\ii jM}{\lambda}\right),
+\end{equation}
+where every $\Log$ is the principal logarithm. Its argument has real
+part one, so no factor meets the branch cut. Since $\sum c_j=0$,
+$e^{\ell_M(\lambda)}=g_M(\lambda)$ for either sign of $\lambda$.
+
+For fixed $M$, expansion at large $|\lambda|$ and
+\eqref{eq:moments} give
+\begin{equation}\label{eq:tail}
+ \ell_M(\lambda)=O_M(|\lambda|^{-N}).
+\end{equation}
+The Weyl estimate and $N>n$ imply
+\begin{equation}\label{eq:abs-sum}
+ \sum_\lambda|\ell_M(\lambda)|<\infty.
+\end{equation}
+It follows that the unordered product is well defined and nonzero,
+with
+\begin{equation}\label{eq:Z-log}
+ Z_M(D)=\exp\!\left(\sum_\lambda\ell_M(\lambda)\right).
+\end{equation}
+Also $\sum_\lambda|g_M(\lambda)-1|<\infty$. In a spectral basis this
+is precisely the trace-class condition for $g_M(D)-1$, and it proves
+\eqref{eq:fredholm}.
+
+\subsection{A convergent formula for the phase}
+
+The logarithm \eqref{eq:ell} fixes a real-valued lift of the phase:
+\begin{equation}\label{eq:theta}
+ \Theta_M=\operatorname{Im}\sum_\lambda\ell_M(\lambda)
+ =\sum_\lambda\sum_{j=1}^Nc_j\arctan\frac{jM}{\lambda}.
+\end{equation}
+The arctangent takes values in $(-\pi/2,\pi/2)$.
+For $a\in\R$ and $\lambda\ne0$,
+\begin{align}\label{eq:arctan}
+ \arctan\frac a\lambda
+ &=\int_0^a\frac{\lambda}{\lambda^2+u^2}\dd u\notag\\
+ &=\int_0^\infty\lambda e^{-t\lambda^2}
+            \left(\int_0^a e^{-tu^2}\dd u\right)\dd t.
+\end{align}
+The inner integral is oriented when $a<0$.
+Introduce
+\begin{equation}\label{eq:H}
+ H_M(t)=\sum_{j=1}^Nc_j\int_0^{jM}e^{-tu^2}\dd u.
+\end{equation}
+At fixed $M$, its expansion at zero is
+\begin{equation}\label{eq:H-expansion}
+ H_M(t)=\sum_{q\ge0}
+ \frac{(-t)^qM^{2q+1}}{q!(2q+1)}\sum_{j=1}^Nc_jj^{2q+1}.
+\end{equation}
+Since $N$ is even, the terms with $0\le q<N/2$ vanish. Hence
+\begin{equation}\label{eq:H-small}
+ H_M(t)=O_M(t^{N/2}).
+\end{equation}
+Together with \eqref{eq:weyl}, this gives
+\begin{equation}\label{eq:fubini}
+ \int_0^\infty\sum_\lambda
+ |H_M(t)\lambda e^{-t\lambda^2}|\dd t
+ =\int_0^\infty |H_M(t)|A(t)\dd t<\infty.
+\end{equation}
+Indeed, the integrand is $O_M(t^{(N-n-1)/2})$ at zero and is
+integrable at infinity. Thus Fubini's theorem applies after the PV
+terms have been grouped in $H_M$, and yields
+\begin{equation}\label{eq:theta-heat}
+ \Theta_M=\int_0^\infty H_M(t)T(t)\dd t.
+\end{equation}
+
+For fixed $t>0$, $\sum_{j=1}^Nc_j=-1$ implies
+\begin{equation}\label{eq:H-limit}
+ H_M(t)\longrightarrow-\frac{\sqrt\pi}{2\sqrt t}
+ \quad(M\to\infty).
+\end{equation}
+Uniformly in $M$,
+\begin{equation}\label{eq:H-majorant}
+ |H_M(t)|\le(2^N-1)\frac{\sqrt\pi}{2\sqrt t}.
+\end{equation}
+The integrability in \eqref{eq:BF} therefore permits dominated
+convergence in \eqref{eq:theta-heat}. By Lemma~\ref{lem:eta},
+\begin{equation}\label{eq:theta-limit}
+ \lim_{M\to\infty}\Theta_M
+ =-\frac{\sqrt\pi}{2}\int_0^\infty t^{-1/2}T(t)\dd t
+ =-\frac\pi2\eta_D(0).
+\end{equation}
+This proves the phase statement. In fact, the chosen real lift itself
+converges; the conclusion is stronger than convergence modulo $2\pi$.
+Heat kernels have only been used to analyze the already defined PV
+product, rather than as an additional prescription for defining it.
+
+\subsection{The modulus and cancellation of local terms}
+
+Set
+\begin{equation}\label{eq:B}
+ B_M(t)=\sum_{j=0}^Nc_j e^{-j^2M^2t}.
+\end{equation}
+The even moments in \eqref{eq:moments} give
+$B_M(t)=O_M(t^{N/2})$ at zero. For each nonzero eigenvalue, the
+Frullani identity and $\sum c_j=0$ imply
+\begin{equation}\label{eq:frullani}
+ \sum_{j=0}^Nc_j\log(\lambda^2+j^2M^2)
+ =-\int_0^\infty e^{-t\lambda^2}B_M(t)\frac{\dd t}{t}.
+\end{equation}
+The summed absolute integrand is integrable because
+\[
+ |B_M(t)|K(t)/t=O_M(t^{(N-n)/2-1})\quad(t\downarrow0),
+\]
+and $K(t)$ decays exponentially at infinity. Consequently,
+\begin{equation}\label{eq:log-modulus}
+ \log|Z_M(D)|=-\frac12\int_0^\infty B_M(t)K(t)\frac{\dd t}{t}.
+\end{equation}
+
+\begin{lemma}[Vanishing heat moments]\label{lem:heat-moments}
+For every odd integer $p$ with $1\le p\le n$,
+\begin{equation}\label{eq:heat-moments}
+ \int_0^\infty t^{-1-p/2}B_M(t)\dd t
+ =\Gamma(-p/2)M^p\sum_{j=1}^Nc_jj^p=0.
+\end{equation}
+All integrals in the left-hand expression are ordinary convergent
+integrals of the combined function $B_M$.
+\end{lemma}
+\begin{proof}
+Convergence follows from $N>p$ at zero and boundedness of $B_M$ at
+infinity. Let $q=(p+1)/2$. Integrating by parts $q$ times gives
+\begin{equation}\label{eq:ibp}
+ \frac{(-1)^q}{\prod_{\ell=0}^{q-1}(-p/2+\ell)}
+ \int_0^\infty t^{q-1-p/2}B_M^{(q)}(t)\dd t.
+\end{equation}
+At each step the boundary terms vanish: at zero one uses the
+vanishing order of $B_M$ and its derivatives; at infinity the initial
+power is negative and all subsequent derivatives decay exponentially.
+After differentiating, the $j=0$ term is absent and each remaining
+exponential is individually integrable. Evaluating these integrals
+and using the recurrence of the gamma function gives the middle
+expression in \eqref{eq:heat-moments}. The odd moment in
+\eqref{eq:moments} then makes it zero.
+\end{proof}
+
+Each subtracted heat term in \eqref{eq:K-expansion} corresponds to
+$p=n-2k$, a positive odd integer. Lemma~\ref{lem:heat-moments} thus
+turns \eqref{eq:log-modulus} into the exact identity
+\begin{equation}\label{eq:modulus-Q}
+ \log|Z_M(D)|=-\frac12\int_0^\infty B_M(t)Q(t)\frac{\dd t}{t}.
+\end{equation}
+Since $|B_M(t)|\le2^N$, $B_M(t)\to1$ for every $t>0$, and
+$Q(t)/t$ is absolutely integrable, dominated convergence yields
+\begin{equation}\label{eq:modulus-limit}
+ \lim_{M\to\infty}|Z_M(D)|=\mathcal A(D)>0.
+\end{equation}
+Combining this with \eqref{eq:theta-limit} proves
+Theorem~\ref{thm:main} and Corollary~\ref{cor:3d}.
+
+In three dimensions, the two cancellations read
+\begin{align}
+ \int_0^\infty t^{-3/2}B_M(t)\dd t
+ &=-2\sqrt\pi M\sum_{j=1}^4c_jj=0,\label{eq:3d-moment1}\\
+ \int_0^\infty t^{-5/2}B_M(t)\dd t
+ &=\frac{4\sqrt\pi}{3}M^3\sum_{j=1}^4c_jj^3=0.
+ \label{eq:3d-moment3}
+\end{align}
+Thus the subtractions in the proof are exact zero identities at
+finite $M$. No divergent real counterterm has been added to this
+particular determinant prescription.
+
+\subsection{Identification of the limiting modulus}
+
+For comparison with a conventional normalization, define
+\[
+ \zeta_{D^2}(s)=\sum_\lambda(\lambda^2)^{-s},
+ \qquad \det\nolimits_\zeta D^2=\exp[-\zeta_{D^2}'(0)].
+\]
+
+\begin{proposition}\label{prop:zeta}
+For invertible $D$ in the setting of Theorem~\ref{thm:main},
+\begin{equation}\label{eq:zeta-modulus}
+ \mathcal A(D)=(\det\nolimits_\zeta D^2)^{1/2}.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Put $p_k=n-2k$ for $0\le k\le r$. The meromorphic continuation of
+the Mellin transform is, near $s=0$,
+\begin{align}
+ \Gamma(s)\zeta_{D^2}(s)
+ &=\int_0^1 t^{s-1}Q(t)\dd t
+   +\int_1^\infty t^{s-1}K(t)\dd t
+   +\sum_{k=0}^r\frac{a_{2k}}{s-p_k/2}\notag\\
+ &=\int_0^\infty t^{s-1}Q(t)\dd t.\label{eq:zeta-Q}
+\end{align}
+The second equality follows by integrating the subtracted powers
+over $[1,\infty)$. The last integral is holomorphic in the strip
+$-1/2<\Re s<1/2$. Since $1/\Gamma(s)=s+O(s^2)$,
+\[
+ \zeta_{D^2}'(0)=\int_0^\infty Q(t)\frac{\dd t}{t}.
+\]
+Equation~\eqref{eq:zeta-modulus} follows from \eqref{eq:amplitude}.
+\end{proof}
+
+This comparison is a consequence of the convergent construction;
+zeta regularization was not used to define the finite PV product.
+
+\section{Pfaffians and Majorana fermions}\label{sec:pf}
+
+A Pfaffian formula requires additional geometric structure. We give
+a sufficient condition that specifies both the antisymmetric form
+and a compatible square root of the determinant.
+
+\begin{theorem}[Pfaffian limit]\label{thm:pf}
+Assume the hypotheses of Theorem~\ref{thm:main}. Suppose that a
+fiberwise antilinear isometry induces an antiunitary operator $J$ on
+the Hilbert space, preserves the domain of $D$, and satisfies
+\begin{equation}\label{eq:J}
+ J^2=-1,\qquad JD=DJ.
+\end{equation}
+Take the Hermitian inner product to be linear in its second argument
+and define
+\begin{equation}\label{eq:omega}
+ \omega(u,v)=\langle Ju,v\rangle,
+ \qquad A_m(u,v)=\omega\bigl(u,(D+\ii m)v\bigr).
+\end{equation}
+Then $A_m$ is a skew-symmetric complex bilinear form. The finite
+spectral Pfaffian ratios with coefficients $c_j$ have an absolutely
+convergent limit $P_M(D)$ as the spectral cutoff is removed, with
+\begin{equation}\label{eq:pf-square}
+ P_M(D)^2=Z_M(D).
+\end{equation}
+Furthermore,
+\begin{equation}\label{eq:pf-limit}
+ \lim_{M\to\infty}P_M(D)
+ =\mathcal A(D)^{1/2}
+       \exp\!\left(-\frac{\ii\pi}{4}\eta_D(0)\right).
+\end{equation}
+The eta invariant here counts the full complex multiplicity,
+including each pair enforced by $J$.
+\end{theorem}
+
+\begin{proof}
+Antiunitarity and $J^2=-1$ imply that $\omega$ is nondegenerate,
+complex bilinear, and skew-symmetric. Self-adjointness and
+$JD=DJ$ give
+\begin{equation}\label{eq:omega-D}
+ \omega(Du,v)=\langle JDu,v\rangle
+ =\langle DJu,v\rangle=\langle Ju,Dv\rangle=\omega(u,Dv).
+\end{equation}
+Hence $A_m$ is also skew-symmetric.
+
+Let $V_\lambda$ be the eigenspace associated with a distinct real
+eigenvalue $\lambda$. It is preserved by $J$ and has even complex
+dimension, say $\dim_\C V_\lambda=2r_\lambda$.
+The restriction of $\omega$ to $V_\lambda$ is nondegenerate, and
+\begin{equation}\label{eq:pf-eigenspace}
+ \Pf(A_m|_{V_\lambda})
+ =(\lambda+\ii m)^{r_\lambda}\Pf(\omega|_{V_\lambda}).
+\end{equation}
+Use the same basis for every mass on this eigenspace. In the product
+with exponents $c_j$, the factor $\Pf(\omega|_{V_\lambda})$ cancels
+because $\sum c_j=0$. Basis-change factors cancel for the same reason.
+Thus the regularized Pfaffian is
+\begin{equation}\label{eq:pf-product}
+ P_M(D)=\prod_{\lambda\ \mathrm{distinct}}g_M(\lambda)^{r_\lambda}
+ =\exp\!\left(\frac12\sum_{\lambda\ \mathrm{with\ multiplicity}}
+                         \ell_M(\lambda)\right).
+\end{equation}
+Absolute convergence follows from \eqref{eq:abs-sum}.
+This proves \eqref{eq:pf-square} and fixes its square-root branch
+through finite-dimensional Pfaffian ratios. Its lifted phase is
+$\Theta_M/2$. Equations~\eqref{eq:theta-limit} and
+\eqref{eq:modulus-limit} prove \eqref{eq:pf-limit}.
+\end{proof}
+
+For example, the usual spin Dirac operator in dimension $8k+3$,
+twisted by a bundle with a compatible real structure, has the
+quaternionic symmetry relevant to this construction; see
+\cite[Section 1.3]{FM}. The existence of a Majorana field with the
+required scalar mass term depends on the dimension and gauge
+representation. Condition~\eqref{eq:J} is sufficient for the theorem
+and is not a classification of all real fermion theories.
+
+There are two useful checks on the construction. First, when a single
+$J$-pair of eigenvalues crosses zero from negative to positive, the
+discrete jump in $\eta_D(0)$ is four. The phase in
+\eqref{eq:pf-limit} changes sign, as a Pfaffian should. A pointwise
+principal square root of the complex determinant would not in general
+retain this information.
+
+Second, one cannot obtain an inverse Pfaffian by putting a
+skew-symmetric quadratic form on a single set of commuting variables.
+In our scheme every negative coefficient is even. Indeed, $c_j<0$
+requires $j$ odd, while
+\[
+ j\binom Nj=N\binom{N-1}{j-1}
+\]
+shows that $\binom Nj$ is even when $N$ is even and $j$ is odd.
+The inverse Pfaffians can therefore be paired into inverse
+determinants. The spectral definition itself is already complete
+without a separate formal functional-integral representation.
+
+\section{Negative physical mass and zero modes}\label{sec:mass}
+
+\subsection{The negative-mass phase}
+
+The large negative-mass phase has twice the exponent of the
+massless formula. This can be proved by a shifted version of the
+same finite-difference scheme. We now allow $h=\dim_\C\ker D$ to
+be nonzero, retaining the convention \eqref{eq:eta-def} for eta.
+
+\begin{theorem}[Negative physical mass]\label{thm:negative}
+Let $D$ be as in Section~\ref{sec:setup}, let $N>n$ be even, and
+take $c_j$ as in \eqref{eq:intro-c}. Define
+\begin{equation}\label{eq:negative-product}
+ a_j=2j-1,
+ \qquad W_M(D)=\prod_{\lambda\in\spec D}
+                       \prod_{j=0}^N(\lambda+\ii a_jM)^{c_j}.
+\end{equation}
+Thus the physical mass is $-M$ and all regulator masses are positive.
+For every $M>0$, this is an absolutely convergent nonzero product,
+including its factors at zero eigenvalues, and
+\begin{equation}\label{eq:negative-phase}
+ \lim_{M\to\infty}\ph W_M(D)
+ =\exp[-\ii\pi(\eta_D(0)+h)].
+\end{equation}
+If a symmetry $J$ satisfying \eqref{eq:J} exists, the corresponding
+Pfaffian ratio obeys
+\begin{equation}\label{eq:negative-pf}
+ \lim_{M\to\infty}\ph W_M^{\Maj}(D)
+ =\exp\!\left[-\frac{\ii\pi}{2}(\eta_D(0)+h)\right].
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Since $a_j$ is affine in $j$, $\sum c_ja_j^k=0$ for $0\le k<N$.
+For $\lambda\ne0$, the logarithm
+\[
+ \sum_{j=0}^Nc_j\Log(1+\ii a_jM/\lambda)
+\]
+is $O_M(|\lambda|^{-N})$. This proves convergence of the nonzero
+spectral product. Its phase is handled by replacing $H_M$ with
+\begin{equation}\label{eq:H-negative}
+ \widetilde H_M(t)=\sum_{j=0}^Nc_j
+                         \int_0^{a_jM}e^{-tu^2}\dd u.
+\end{equation}
+The same moment cancellations give
+$\widetilde H_M(t)=O_M(t^{N/2})$ at zero, while
+\begin{equation}
+ |\widetilde H_M(t)|\le 2^N\frac{\sqrt\pi}{2\sqrt t}.
+\end{equation}
+As $a_0=-1$ and $a_j>0$ for $j\ge1$,
+\begin{equation}\label{eq:H-negative-limit}
+ \lim_{M\to\infty}\widetilde H_M(t)
+ =\frac{\sqrt\pi}{2\sqrt t}\sum_{j=0}^Nc_j\sgn(a_j)
+ =-\frac{\sqrt\pi}{\sqrt t}.
+\end{equation}
+Fubini's theorem and dominated convergence apply exactly as before.
+The nonzero modes contribute $\exp(-\ii\pi\eta_D(0))$ for the
+determinant and $\exp(-\ii\pi\eta_D(0)/2)$ for the Pfaffian.
+
+A zero eigenvalue contributes the finite, strictly negative factor
+\begin{equation}\label{eq:zero-factor}
+ \prod_{j=0}^N(\ii a_jM)^{c_j}
+ =-\prod_{j=1}^Na_j^{c_j}.
+\end{equation}
+The determinant therefore receives an additional sign $(-1)^h$.
+In the Pfaffian case $h$ is even, and the corresponding sign is
+$(-1)^{h/2}$. These signs give \eqref{eq:negative-phase} and
+\eqref{eq:negative-pf}.
+\end{proof}
+
+In terms of the reduced eta invariant
+$\bar\eta_D=(\eta_D(0)+h)/2$, these phases are
+$e^{-2\pi\ii\bar\eta_D}$ and $e^{-\pi\ii\bar\eta_D}$, respectively.
+Here $\bar\eta_D$ denotes the specified real number; in the Pfaffian
+expression, reducing it modulo integers would discard a sign.
+These statements concern the phase. The modulus of this massive
+product generally requires a normalization by real local terms.
+The cancellation proved for the massless modulus in
+Section~\ref{sec:main} does not assert a corresponding massive limit.
+
+\subsection{Massless determinants with the kernel omitted}
+
+If $h>0$, the massless determinant itself vanishes and has no phase.
+One may nevertheless define $Z'_M(D)$ by the product
+\eqref{eq:g-def} over nonzero eigenvalues only. All phase arguments
+remain valid, since zero modes do not contribute to $T(t)$.
+
+\begin{proposition}\label{prop:primed}
+For the massless primed product,
+\begin{equation}\label{eq:primed-phase}
+ \lim_{M\to\infty}\ph Z'_M(D)
+ =\exp\!\left(-\frac{\ii\pi}{2}\eta_D(0)\right).
+\end{equation}
+There is a finite positive constant $C_N(D)$ such that
+\begin{equation}\label{eq:primed-modulus}
+ M^{-h}|Z'_M(D)|\longrightarrow C_N(D).
+\end{equation}
+Under \eqref{eq:J}, the primed Pfaffian has phase limit
+$\exp(-\ii\pi\eta_D(0)/4)$ and
+$M^{-h/2}|P'_M(D)|\to C_N(D)^{1/2}$.
+\end{proposition}
+
+\begin{proof}
+The phase follows from \eqref{eq:theta-heat} because the heat trace
+$T(t)$ is unchanged by removal of the kernel. For the modulus, let
+\[
+ S(t)=\sum_{k=0}^r a_{2k}t^{k-n/2},\qquad
+ R(t)=K(t)-h-S(t)+h\mathbf1_{(0,1)}(t).
+\]
+Then $R(t)/t$ is absolutely integrable: at zero $R(t)=O(t^{1/2})$,
+and at infinity $K(t)-h$ decays exponentially while $S(t)$ decays
+as negative powers. The same finite-mass calculation and
+Lemma~\ref{lem:heat-moments} give
+\begin{equation}\label{eq:primed-log}
+ \log|Z'_M(D)|
+ =-\frac12\int_0^\infty B_M(t)R(t)\frac{\dd t}{t}
+   +\frac h2\int_0^1 B_M(t)\frac{\dd t}{t}.
+\end{equation}
+The first integral has a finite limit by dominated convergence.
+Write $b(u)=\sum_{j=0}^Nc_je^{-j^2u}$, so that $B_M(t)=b(M^2t)$.
+Since $b(u)=O(u^{N/2})$ at zero and $b(u)-1$ decays exponentially
+at infinity,
+\begin{equation}\label{eq:b-constant}
+ \int_0^1 B_M(t)\frac{\dd t}{t}-2\log M
+ \longrightarrow
+ \beta_N:=\int_0^1\frac{b(u)}u\dd u
+          +\int_1^\infty\frac{b(u)-1}{u}\dd u.
+\end{equation}
+Thus \eqref{eq:primed-modulus} holds with
+\begin{equation}\label{eq:C-primed}
+ C_N(D)=\exp\!\left[-\frac12\int_0^\infty R(t)\frac{\dd t}{t}
+                              +\frac h2\beta_N\right].
+\end{equation}
+The Pfaffian assertion follows by the eigenspace construction of
+Theorem~\ref{thm:pf}. A fixed system of spectral and mass units is
+understood in these normalization formulas.
+\end{proof}
+
+In particular, $\log|Z'_M|=h\log M+O(1)$ and
+$\log|P'_M|=(h/2)\log M+O(1)$. Removing zero modes leaves the eta
+phase intact, but changes the normalization needed for the modulus.
+
+\section{Extensions and scope}\label{sec:extensions}
+
+\subsection{An abstract heat-trace criterion}
+
+The phase calculation can be separated from the odd-dimensional
+geometry used to establish its analytic input.
+
+\begin{proposition}\label{prop:abstract}
+Let $D$ be a self-adjoint first-order elliptic operator on a closed
+$n$-dimensional manifold. Suppose that it satisfies the Weyl
+estimate \eqref{eq:weyl} and
+\begin{equation}\label{eq:abstract-integrability}
+ \int_0^\infty t^{-1/2}
+            |\Tr(De^{-tD^2})|\dd t<\infty.
+\end{equation}
+Set
+\begin{equation}\label{eq:eta-heat-definition}
+ \eta_{\mathrm{heat}}(D)=\frac1{\sqrt\pi}
+           \int_0^\infty t^{-1/2}\Tr(De^{-tD^2})\dd t.
+\end{equation}
+For any even $N>n$, the primed massless PV product satisfies
+\begin{equation}\label{eq:abstract-phase}
+ \lim_{M\to\infty}\ph Z'_M(D)
+       =e^{-\ii\pi\eta_{\mathrm{heat}}(D)/2}.
+\end{equation}
+If the spectral eta function is regular at zero, then
+$\eta_{\mathrm{heat}}(D)=\eta_D(0)$.
+The negative-mass phase and the Pfaffian phases also hold with
+$\eta_{\mathrm{heat}}(D)$ in place of $\eta_D(0)$, with
+\eqref{eq:J} imposed for Pfaffians.
+\end{proposition}
+
+\begin{proof}
+Finite-mass absolute convergence uses only the Weyl estimate and the
+moment identities. The Fubini estimate \eqref{eq:fubini} is likewise
+unchanged. Equation~\eqref{eq:abstract-integrability} supplies exactly
+the majorant required in \eqref{eq:H-majorant}, proving the limit.
+For $\Re s>0$, the Mellin integral \eqref{eq:mellin} is holomorphic
+and agrees with the spectral eta function where its defining series
+converges. Dominated convergence along real $s\downarrow0$ identifies
+its limit with \eqref{eq:eta-heat-definition}. If eta is regular at
+zero, this limit is its value there. The signed-mass kernel
+\eqref{eq:H-negative} and the Pfaffian construction prove the
+remaining assertions.
+\end{proof}
+
+The stronger estimate $T(t)=O(t^{1/2})$ directly implies regularity
+as in Lemma~\ref{lem:eta}. The proposition does not extend the
+odd-dimensional modulus formula without additional heat-kernel
+information.
+
+\subsection{Oriented even-dimensional manifolds}
+
+For a nonchiral geometric Dirac operator on the full spinor bundle
+of a closed oriented even-dimensional manifold, the chirality
+operator $\Gamma$ satisfies $\Gamma D=-D\Gamma$. Its nonzero
+spectrum is symmetric, so $T(t)=0$ and $\eta_D(0)=0$.
+Moreover, \eqref{eq:ell} obeys
+$\ell_M(-\lambda)=\overline{\ell_M(\lambda)}$.
+Thus the primed massless PV determinant is positive at every $M$,
+and its phase is already one before the large-mass limit.
+
+The heat trace now has integer rather than half-integer powers.
+The vanishing odd-moment argument for the modulus therefore does
+not apply, and real local subtractions are generally needed.
+For negative physical mass, Proposition~\ref{prop:abstract} gives
+the additional zero-mode sign in \eqref{eq:negative-phase}.
+
+\subsection{A covering-space criterion and Pin examples}
+
+On a nonorientable manifold, global chirality need not exist.
+Even-dimensional eta phases can consequently be nontrivial.
+The operator and its Pin-module structure must first be specified.
+The following sufficient criterion is useful without making a
+universal assertion about every Pin Dirac convention.
+
+Suppose $\widetilde Y\to Y$ is a double cover with a fixed-point-free
+deck involution $\tau$. Let $\widetilde D$ be a lifted geometric
+Dirac-type operator and let $U_\tau$ be a unitary involution lifting
+$\tau$, commuting with $\widetilde D$. Assume that $D$ acts on the
+invariant sections and that a unitary grading
+$\widetilde\Gamma$ anticommutes with $\widetilde D$. Then
+\begin{equation}\label{eq:cover-trace}
+ T_Y(t)=\frac12\Tr(\widetilde D e^{-t\widetilde D^2})
+       +\frac12\Tr(U_\tau\widetilde D e^{-t\widetilde D^2}).
+\end{equation}
+The first trace vanishes by the grading. Compactness and the absence
+of fixed points give a positive lower bound on the distance from
+$x$ to $\tau x$. The usual off-diagonal Gaussian estimate, also for
+the differentiated heat kernel, bounds the second trace by
+$O(t^{-L}e^{-c/t})$ for some $L$ and $c>0$.
+This proves the short-time integrability required in
+Proposition~\ref{prop:abstract}.
+
+The four-dimensional $\mathrm{Pin}^+$ Majorana system discussed in
+\cite[Appendices A and C]{Witten} provides the standard example of
+a nontrivial even-dimensional eta phase. With the operator and
+multiplicity conventions used there, the two $\mathrm{Pin}^+$
+structures on the round $\R P^4$ give $h=0$ and
+$\eta_D(0)=\pm1/4$. The negative-mass Pfaffian phase is accordingly
+$e^{\mp\ii\pi/8}$. This example uses the specified Pin structure
+and operator; parity of the dimension alone does not determine the
+answer.
+
+\subsection{Chiral fields, boundaries, and finite local terms}
+
+A chiral operator $D^+:S^+\to S^-$ is not a self-adjoint operator
+on a single space of sections. Its determinant, and the corresponding
+Pfaffian in a real theory, generally takes values in a line bundle
+over the background fields. Higher-dimensional eta invariants and
+anomaly inflow enter its global interpretation
+\cite{DF,FM,WY}. The scalar products constructed here cannot simply
+be applied to $D^+$ by replacing $D$ in their formulas.
+
+On a manifold with boundary, a self-adjoint domain and suitable heat
+estimates must likewise be supplied. Our main theorem is for closed
+manifolds. Finally, a finite imaginary local term in the effective
+action can change a phase. All equalities in this paper refer to
+the mass sign \eqref{eq:mass-sign} and the explicitly specified PV
+normalization. Independence of $N$ in Theorem~\ref{thm:main} is an
+independence within that family of schemes, not a statement about
+arbitrary finite counterterms.
+
+\section{Discussion}
+
+The construction separates the ultraviolet cancellation from the
+spectral asymmetry. Finite differences make the combined rational
+spectral factor trace class at each regulator scale. The eta
+invariant then enters through an absolutely convergent heat integral,
+and the Bismut--Freed estimate justifies passage to infinite mass.
+In odd dimensions the same regulator moments annihilate the
+divergent heat terms in the modulus, yielding the conventional
+positive zeta-determinant amplitude.
+
+For Pfaffians, the antiunitary symmetry specifies finite-dimensional
+antisymmetric forms on the eigenspaces. Their PV ratios fix the
+square root, including its spectral-flow sign. Negative physical
+mass changes the limiting heat kernel by a factor of two, while
+zero modes contribute the explicit signs in
+Theorem~\ref{thm:negative}. In a massless primed determinant they
+instead change the power of the regulator scale required to
+normalize the modulus.
+
+The finite-product convergence proofs give an explicit link between
+the physical eta phases of \cite{Witten,WY} and the heat-kernel
+results of \cite{BF,Ponge}. Their hypotheses also make precise the
+distinction from the determinant-line constructions of \cite{DF,FM}.
+
+\clearpage
+\begin{thebibliography}{9}
+
+\bibitem{Witten}
+E.~Witten,
+\emph{Fermion Path Integrals And Topological Phases},
+Rev. Mod. Phys. \textbf{88} (2016), 035001,
+\href{https://arxiv.org/abs/1508.04715}{arXiv:1508.04715}.
+
+\bibitem{WY}
+E.~Witten and K.~Yonekura,
+\emph{Anomaly Inflow and the $\eta$-Invariant},
+\href{https://arxiv.org/abs/1909.08775}{arXiv:1909.08775}.
+
+\bibitem{BF}
+J.-M.~Bismut and D.~S.~Freed,
+\emph{The Analysis of Elliptic Families II. Dirac Operators,
+Eta Invariants, and the Holonomy Theorem},
+Commun. Math. Phys. \textbf{107} (1986), 103--163.
+\href{https://webhomes.maths.ed.ac.uk/~v1ranick/papers/bismfree2.pdf}{Available PDF}.
+
+\bibitem{Ponge}
+R.~Ponge,
+\emph{A new proof of the local regularity of the eta invariant of
+a Dirac operator},
+J. Geom. Phys. \textbf{56} (2006), 1654--1665,
+\href{https://arxiv.org/abs/math/0411123}{arXiv:math/0411123}.
+
+\bibitem{DF}
+X.~Dai and D.~S.~Freed,
+\emph{Eta-Invariants and Determinant Lines},
+J. Math. Phys. \textbf{35} (1994), 5155--5194,
+\href{https://arxiv.org/abs/hep-th/9405012}{arXiv:hep-th/9405012}.
+
+\bibitem{FM}
+D.~S.~Freed and G.~W.~Moore,
+\emph{Setting the Quantum Integrand of M-Theory},
+Commun. Math. Phys. \textbf{263} (2006), 89--132,
+\href{https://arxiv.org/abs/hep-th/0409135}{arXiv:hep-th/0409135}.
+
+\end{thebibliography}
+\end{document}

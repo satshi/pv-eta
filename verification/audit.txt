@@ -1,0 +1,15 @@
+Build completed successfully.
+Axiom audit passed for 112 kernel-safe PVEta declarations.
+'PVEta.coefficient_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.orderFour_moments' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.scalar_arctan_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.Regulator.kernel_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.Regulator.tendsto_kernel' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.Regulator.hasSum_angle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.Regulator.summable_abs_angle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.Regulator.tendsto_phaseLift' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.normalize_groupedFactor' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.Regulator.hasProd_normalized' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.Regulator.tendsto_normalized_product' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.Regulator.tendsto_halfPhase' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PVEta.unitPhase_half_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
